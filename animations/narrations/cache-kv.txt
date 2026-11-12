@@ -1,0 +1,7 @@
+Pendant la génération causale, le cache KV conserve les clés et les valeurs déjà calculées. Le préremplissage commence par traiter les tokens du prompt, à chaque couche du modèle.
+
+Pour le token suivant, on calcule ses nouvelles projections. Ses clés et ses valeurs rejoignent le cache.
+
+La nouvelle requête consulte alors les clés et les valeurs des positions passées et de la position courante. Il faut donc toujours calculer l’attention au passé.
+
+Le gain vient de la réutilisation des projections précédentes. En échange, le cache occupe de la mémoire, et cette mémoire augmente avec la longueur du contexte. Il faut donc choisir un compromis entre vitesse et capacité de traitement.

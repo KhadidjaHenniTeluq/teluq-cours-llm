@@ -1,0 +1,20 @@
+{{- $name := .Get "name" -}}
+{{- $title := .Get "title" -}}
+{{- $video := printf "videos/manim/%s.mp4" $name -}}
+{{- if not (fileExists (printf "static/%s" $video)) -}}
+  {{- errorf "Vidéo manquante : %s (%s)" $video .Position -}}
+{{- end -}}
+<figure class="concept-video">
+  <figcaption><strong>{{ $title }}</strong></figcaption>
+  <p class="concept-video-note">Animation Manim en français, sans audio. Lancez la lecture à votre rythme.</p>
+  <video controls playsinline preload="none" width="1280" height="720"
+    aria-label="{{ $title }}"
+    poster="{{ printf "videos/manim/%s.jpg" $name | relURL }}">
+    <source src="{{ $video | relURL }}" type="video/mp4">
+    Votre navigateur ne prend pas en charge la lecture vidéo.
+  </video>
+  <p><a href="{{ $video | relURL }}" download>Télécharger la vidéo MP4</a></p>
+  <details><summary>Lire la transcription et les points clés</summary>
+    {{ .Inner | markdownify }}
+  </details>
+</figure>

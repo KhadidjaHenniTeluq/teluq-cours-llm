@@ -1,0 +1,1 @@
+Figure 3-3. Attention is carried out by the interaction of the queries, keys, and values matrices. Those are produced by multiplying the layer’s inputs with the projection matrices.

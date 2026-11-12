@@ -1,0 +1,7 @@
+L’attention permet à une position de combiner des informations provenant d’autres positions. Le modèle construit pour cela des requêtes, des clés et des valeurs, appelées Q, K et V.
+
+Une requête est comparée aux clés. Les produits scalaires sont divisés par la racine de la dimension des clés. Dans notre exemple, les scores obtenus sont zéro, un et deux.
+
+Le softmax transforme ces scores en poids : environ neuf pour cent, vingt-quatre et demi pour cent, et soixante-six et demi pour cent. Leur somme vaut un.
+
+La sortie est une somme des valeurs V pondérées par ces poids. Dans un décodeur causal, les positions futures sont masquées avant le softmax.

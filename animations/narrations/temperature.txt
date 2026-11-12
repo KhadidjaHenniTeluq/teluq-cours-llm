@@ -1,0 +1,7 @@
+La température modifie une distribution avant l’échantillonnage. Nous gardons ici les mêmes scores : deux, un et zéro. On les divise par la température, puis on applique le softmax.
+
+À zéro virgule cinq, la probabilité se concentre sur le premier candidat. Il reçoit environ quatre-vingt-sept pour cent de la masse totale.
+
+À un, nous retrouvons la distribution initiale. À deux, les probabilités deviennent plus proches les unes des autres : les candidats moins probables ont davantage de chances d’être tirés.
+
+Pour une température positive, le classement reste le même. Le décodage glouton choisit donc toujours le même maximum. Modifier la température ne garantit pas l’exactitude des réponses.

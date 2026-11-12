@@ -1,0 +1,7 @@
+LoRA adapte une matrice en conservant ses poids de base et en apprenant une petite correction. Ici, la matrice de base a quatre mille quatre-vingt-seize lignes et autant de colonnes.
+
+La correction utilise deux matrices, A et B, avec un rang de huit. Ensemble, elles contiennent soixante-cinq mille cinq cent trente-six paramètres entraînables.
+
+La sortie additionne le résultat de la matrice de base et celui de cette branche de faible rang. Le facteur alpha divisé par le rang règle l’échelle de la correction.
+
+Pour cet exemple, il y a deux cent cinquante-six fois moins de paramètres entraînables. Mais les poids de base restent en mémoire : ce rapport ne mesure pas l’économie totale de mémoire GPU.

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Semaine 3, Architecture Transformer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      padding: 1.5rem;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .question {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      transition: box-shadow 0.2s;
+    }
+    .question:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .question-text {
+      font-weight: 600;
+      margin-bottom: 0.85rem;
+      font-size: 0.98rem;
+    }
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 0.35rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 0.93rem;
+    }
+    .option:hover { background: #f1f5f9; }
+    .option input[type="radio"] { margin-top: 0.2rem; accent-color: #6366f1; flex-shrink: 0; }
+    .feedback {
+      margin-top: 0.85rem;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .feedback.correct { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .feedback.incorrect { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    .btn-check {
+      margin-top: 1rem;
+      padding: 0.5rem 1.2rem;
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-check:hover { background: #4f46e5; }
+    .score-box {
+      background: #ede9fe;
+      border: 1px solid #c4b5fd;
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      display: none;
+      margin-top: 1rem;
+    }
+    .score-box h2 { font-size: 1.6rem; color: #4c1d95; margin-bottom: 0.25rem; }
+    .score-box p { color: #6d28d9; font-size: 0.95rem; }
+    .btn-reset {
+      margin-top: 1rem;
+      padding: 0.5rem 1.4rem;
+      background: #7c3aed;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-reset:hover { background: #6d28d9; }
+    #submit-all {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background: #0f172a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background 0.2s;
+    }
+    #submit-all:hover { background: #1e3a5f; }
+  </style>
+</head>
+<body>
+
+<h1> Quiz, Semaine 3</h1>
+<p class="subtitle">Architecture Transformer approfondie · 10 questions</p>
+
+<form id="quiz-form">
+
+  <div class="question" data-correct="c">
+    <div class="question-text">1. Combien de matrices de projection principales sont nécessaires pour le calcul de la self-attention d'une seule tête ?</div>
+    <label class="option"><input type="radio" name="q1" value="a" /> a) 1 (W)</label>
+    <label class="option"><input type="radio" name="q1" value="b" /> b) 2 (Wq, Wk)</label>
+    <label class="option"><input type="radio" name="q1" value="c" /> c) 3 (Wq, Wk, Wv)</label>
+    <label class="option"><input type="radio" name="q1" value="d" /> d) 4 (Wq, Wk, Wv, Wo)</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="c">
+    <div class="question-text">2. Quel composant permet au modèle de regarder différentes parties de l'entrée simultanément sous des angles variés ?</div>
+    <label class="option"><input type="radio" name="q2" value="a" /> a) La couche Feedforward</label>
+    <label class="option"><input type="radio" name="q2" value="b" /> b) Le KV Cache</label>
+    <label class="option"><input type="radio" name="q2" value="c" /> c) La Multi-head attention</label>
+    <label class="option"><input type="radio" name="q2" value="d" /> d) Le RMSNorm</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="b">
+    <div class="question-text">3. Quelle optimisation algorithmique réduit drastiquement la consommation mémoire GPU lors du calcul de l'attention ?</div>
+    <label class="option"><input type="radio" name="q3" value="a" /> a) Word2Vec</label>
+    <label class="option"><input type="radio" name="q3" value="b" /> b) FlashAttention</label>
+    <label class="option"><input type="radio" name="q3" value="c" /> c) L'encodage sinusoïdal</label>
+    <label class="option"><input type="radio" name="q3" value="d" /> d) Le Dropout</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="a">
+    <div class="question-text">4. Quelle est la différence fondamentale entre LayerNorm et RMSNorm ?</div>
+    <label class="option"><input type="radio" name="q4" value="a" /> a) RMSNorm n'utilise pas la moyenne, ce qui la rend plus rapide</label>
+    <label class="option"><input type="radio" name="q4" value="b" /> b) LayerNorm est plus récente</label>
+    <label class="option"><input type="radio" name="q4" value="c" /> c) RMSNorm nécessite plus de calculs</label>
+    <label class="option"><input type="radio" name="q4" value="d" /> d) LayerNorm ne s'applique qu'aux RNN</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="b">
+    <div class="question-text">5. Que stocke précisément le « KV cache » pour accélérer la génération de texte ?</div>
+    <label class="option"><input type="radio" name="q5" value="a" /> a) Les mots déjà générés sous forme de texte</label>
+    <label class="option"><input type="radio" name="q5" value="b" /> b) Les vecteurs Keys et Values des tokens passés</label>
+    <label class="option"><input type="radio" name="q5" value="c" /> c) Les gradients du modèle</label>
+    <label class="option"><input type="radio" name="q5" value="d" /> d) Les scores de probabilité du vocabulaire</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="c">
+    <div class="question-text">6. Combien de têtes d'attention trouve-t-on typiquement dans un modèle comme BERT-base ou GPT-2-small ?</div>
+    <label class="option"><input type="radio" name="q6" value="a" /> a) 1</label>
+    <label class="option"><input type="radio" name="q6" value="b" /> b) 8</label>
+    <label class="option"><input type="radio" name="q6" value="c" /> c) 12</label>
+    <label class="option"><input type="radio" name="q6" value="d" /> d) 96</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="b">
+    <div class="question-text">7. Quel mécanisme est responsable du traitement simultané (parallèle) des tokens, contrairement aux RNN ?</div>
+    <label class="option"><input type="radio" name="q7" value="a" /> a) La récurrence</label>
+    <label class="option"><input type="radio" name="q7" value="b" /> b) La Self-attention</label>
+    <label class="option"><input type="radio" name="q7" value="c" /> d) Le masquage</label>
+    <label class="option"><input type="radio" name="q7" value="d" /> d) La couche de sortie</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="b">
+    <div class="question-text">8. Quelle technique divise les matrices Q, K, V en segments plus petits pour augmenter la capacité de modélisation ?</div>
+    <label class="option"><input type="radio" name="q8" value="a" /> a) La quantification</label>
+    <label class="option"><input type="radio" name="q8" value="b" /> b) Le mécanisme de têtes (Heads)</label>
+    <label class="option"><input type="radio" name="q8" value="c" /> c) Le pooling</label>
+    <label class="option"><input type="radio" name="q8" value="d" /> d) Le bit-shifting</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="c">
+    <div class="question-text">9. Quel composant final convertit les activations internes du Transformer en probabilités sur tout le vocabulaire ?</div>
+    <label class="option"><input type="radio" name="q9" value="a" /> a) Le bloc d'attention</label>
+    <label class="option"><input type="radio" name="q9" value="b" /> b) La couche d'embedding</label>
+    <label class="option"><input type="radio" name="q9" value="c" /> c) La Language Modeling Head (LM Head)</label>
+    <label class="option"><input type="radio" name="q9" value="d" /> d) La couche résiduelle</label>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-correct="b">
+    <div class="question-text">10. Quel est l'avantage principal du Rotary Positional Encoding (RoPE) utilisé dans les modèles modernes (Llama, Phi) ?</div>
+    <label class="option"><input type="radio" name="q10" value="a" /> a) Il est plus joli à visualiser</label>
+    <label class="option"><input type="radio" name="q10" value="b" /> b) Il capture mieux les relations de position relatives entre les tokens</label>
+    <label class="option"><input type="radio" name="q10" value="c" /> c) Il supprime le besoin d'embeddings</label>
+    <label class="option"><input type="radio" name="q10" value="d" /> d) Il réduit la taille du vocabulaire</label>
+    <div class="feedback"></div>
+  </div>
+
+  <button type="button" id="submit-all" onclick="submitQuiz()">Valider mes réponses</button>
+</form>
+
+<div class="score-box" id="score-box">
+  <h2 id="score-text"></h2>
+  <p id="score-msg"></p>
+  <button class="btn-reset" onclick="resetQuiz()"> Recommencer</button>
+</div>
+
+<script>
+const explanations = {
+  q1: "On projette l'entrée sur trois espaces distincts : Query, Key et Value, via trois matrices de poids distinctes.",
+  q2: "Les têtes multiples permettent de capturer des relations syntaxiques et sémantiques différentes en parallèle.",
+  q3: "FlashAttention optimise les accès mémoire (IO-awareness) entre la mémoire SRAM et HBM du GPU.",
+  q4: "RMSNorm simplifie la normalisation en se basant uniquement sur la racine carrée de la moyenne des carrés, sans calculer la moyenne.",
+  q5: "En stockant les K et V, on évite de recalculer l'attention pour tout le passé à chaque nouveau token.",
+  q6: "La configuration standard « base » utilise 12 têtes d'attention par couche.",
+  q7: "Comme il n'y a pas de boucle temporelle, tous les tokens peuvent interagir en une seule opération matricielle.",
+  q8: "On divise la dimension totale (ex: 768) par le nombre de têtes (ex: 12) pour avoir des projections de taille 64.",
+  q9: "La tête LM est une couche linéaire suivie d'un softmax projetant vers la taille du dictionnaire.",
+  q10: "RoPE applique une rotation complexe aux vecteurs, permettant au modèle de mieux « sentir » la distance relative entre les mots."
+};
+
+function submitQuiz() {
+  const questions = document.querySelectorAll('.question');
+  let score = 0;
+  let answered = 0;
+
+  questions.forEach((q, i) => {
+    const name = `q${i + 1}`;
+    const correct = q.dataset.correct;
+    const selected = q.querySelector(`input[name="${name}"]:checked`);
+    const feedback = q.querySelector('.feedback');
+
+    if (selected) {
+      answered++;
+      feedback.style.display = 'block';
+      if (selected.value === correct) {
+        score++;
+        feedback.className = 'feedback correct';
+        feedback.textContent = ' Correct ! ' + explanations[name];
+      } else {
+        feedback.className = 'feedback incorrect';
+        feedback.textContent = ` Incorrect. La bonne réponse est (${correct.toUpperCase()}). ` + explanations[name];
+      }
+    }
+  });
+
+  if (answered < questions.length) {
+    alert('Veuillez répondre à toutes les questions avant de valider.');
+    return;
+  }
+
+  const scoreBox = document.getElementById('score-box');
+  scoreBox.style.display = 'block';
+  document.getElementById('score-text').textContent = `${score} / ${questions.length}`;
+  const pct = Math.round((score / questions.length) * 100);
+  let msg = '';
+  if (pct >= 90) msg = ' Excellent ! Vous maîtrisez l\'architecture des Transformers.';
+  else if (pct >= 70) msg = ' Très bien ! Quelques révisions sur le KV cache et RoPE et vous serez au top.';
+  else if (pct >= 50) msg = ' Pas mal ! Relisez les sections théoriques avant de continuer.';
+  else msg = ' Prenez le temps de revoir cette semaine 3, puis réessayez.';
+  document.getElementById('score-msg').textContent = msg;
+  scoreBox.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  document.getElementById('quiz-form').reset();
+  document.querySelectorAll('.feedback').forEach(f => { f.style.display = 'none'; f.textContent = ''; });
+  document.getElementById('score-box').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

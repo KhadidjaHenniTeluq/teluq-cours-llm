@@ -1,0 +1,7 @@
+BERTopic organise la découverte de sujets en plusieurs étapes. Les embeddings représentent d’abord les documents. UMAP réduit ensuite le nombre de dimensions utilisé pour le regroupement.
+
+HDBSCAN cherche des groupes de points denses. Dans notre dessin, deux groupes apparaissent et un point reste à l’extérieur. Tous les documents ne sont donc pas forcés dans un groupe.
+
+La méthode appelée c-TF-IDF met ensuite en évidence les mots caractéristiques de chaque groupe. Ici, les descriptions évoquent les cours et les frais.
+
+Ces mots facilitent l’interprétation, mais ne suffisent pas à valider un sujet. Il faut consulter les documents représentatifs. Les différents modules du pipeline peuvent aussi être remplacés.

@@ -1,0 +1,142 @@
+[
+  {
+    "scene": "Recurrence",
+    "slug": "recurrence",
+    "title": "RNN et mémoire séquentielle",
+    "week": 1,
+    "page": "docs/ch1-fondements/week01/section-1-2.md"
+  },
+  {
+    "scene": "Tokenisation",
+    "slug": "tokenisation",
+    "title": "Du texte aux tokens",
+    "week": 2,
+    "page": "docs/ch1-fondements/week02/section-2-1.md"
+  },
+  {
+    "scene": "Embeddings",
+    "slug": "embeddings",
+    "title": "Embeddings et similarité cosinus",
+    "week": 2,
+    "page": "docs/ch1-fondements/week02/section-2-4.md"
+  },
+  {
+    "scene": "Attention",
+    "slug": "attention",
+    "title": "Comprendre les poids d’attention",
+    "week": 3,
+    "page": "docs/ch1-fondements/week03/section-3-1.md"
+  },
+  {
+    "scene": "MasqueCausal",
+    "slug": "masque-causal",
+    "title": "Visualiser le masque causal",
+    "week": 3,
+    "page": "docs/ch1-fondements/week03/section-3-1.md"
+  },
+  {
+    "scene": "BERT",
+    "slug": "bert",
+    "title": "BERT et le token masqué",
+    "week": 4,
+    "page": "docs/ch1-fondements/week04/section-4-1.md"
+  },
+  {
+    "scene": "Generation",
+    "slug": "generation",
+    "title": "La génération autorégressive",
+    "week": 5,
+    "page": "docs/ch1-fondements/week05/section-5-1.md"
+  },
+  {
+    "scene": "Temperature",
+    "slug": "temperature",
+    "title": "Température et probabilités",
+    "week": 5,
+    "page": "docs/ch1-fondements/week05/section-5-3.md"
+  },
+  {
+    "scene": "Recherche",
+    "slug": "recherche",
+    "title": "Du document aux passages pertinents",
+    "week": 6,
+    "page": "docs/ch2-science/week06/section-6-3.md"
+  },
+  {
+    "scene": "BERTopic",
+    "slug": "bertopic",
+    "title": "BERTopic : des groupes aux sujets",
+    "week": 7,
+    "page": "docs/ch2-science/week07/section-7-2.md"
+  },
+  {
+    "scene": "Prompt",
+    "slug": "prompt",
+    "title": "Construire un prompt vérifiable",
+    "week": 8,
+    "page": "docs/ch2-science/week08/section-8-1.md"
+  },
+  {
+    "scene": "RAG",
+    "slug": "rag",
+    "title": "Les étapes d’un système RAG",
+    "week": 9,
+    "page": "docs/ch2-science/week09/section-9-1.md"
+  },
+  {
+    "scene": "CLIP",
+    "slug": "clip",
+    "title": "CLIP et l’apprentissage contrastif",
+    "week": 10,
+    "page": "docs/ch2-science/week10/section-10-1.md"
+  },
+  {
+    "scene": "Vision",
+    "slug": "vision",
+    "title": "Du patch au token visuel",
+    "week": 10,
+    "page": "docs/ch2-science/week10/section-10-2.md"
+  },
+  {
+    "scene": "LoRA",
+    "slug": "lora",
+    "title": "LoRA et les matrices de faible rang",
+    "week": 11,
+    "page": "docs/ch3-ingenierie/week11/section-11-2.md"
+  },
+  {
+    "scene": "Quantification",
+    "slug": "quantification",
+    "title": "Quantification et erreur d’arrondi",
+    "week": 11,
+    "page": "docs/ch3-ingenierie/week11/section-11-3.md"
+  },
+  {
+    "scene": "DPO",
+    "slug": "dpo",
+    "title": "Apprendre avec des paires de préférences",
+    "week": 12,
+    "page": "docs/ch3-ingenierie/week12/section-12-3.md"
+  },
+  {
+    "scene": "CacheKV",
+    "slug": "cache-kv",
+    "title": "Le cache KV pendant le décodage",
+    "week": 13,
+    "page": "docs/ch3-ingenierie/week13/section-13-1.md"
+  },
+  {
+    "scene": "Agent",
+    "slug": "agent",
+    "title": "La boucle d’un agent avec outils",
+    "week": 14,
+    "page": "docs/ch3-ingenierie/week14/section-14-3.md"
+  },
+  {
+    "scene": "Entrainement",
+    "slug": "entrainement",
+    "title": "minGPT : de la prédiction à la mise à jour",
+    "week": 15,
+    "page": "docs/ch3-ingenierie/week15/mingpt/section-2.md"
+  }
+]

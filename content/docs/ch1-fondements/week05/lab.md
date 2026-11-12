@@ -1,0 +1,123 @@
+---
+title: "Laboratoire "
+weight: 6
+---
+
+Ce laboratoire met en pratique les notions de la semaine. Exécutez les cellules dans l’ordre, puis comparez vos observations aux résultats attendus. Notez les paramètres modifiés et les limites rencontrées.
+
+## EXERCICE 1 : Génération contrôlée et Température
+
+**Objectif** : Expérimenter l'impact de la température sur la diversité des réponses avec Phi-3-mini.
+
+```python
+from transformers import pipeline
+import torch
+
+# Initialisation de la pipeline
+model_id = "microsoft/Phi-3-mini-4k-instruct"
+pipe = pipeline("text-generation", model=model_id, device_map="auto", torch_dtype=torch.float16)
+
+#VOTRE TÂCHE : Générer une blague avec 3 températures différentes (par exemple: 0.1, 0.7, 1.5)
+```
+<details>
+<summary><b>Voir la réponse</b></summary>
+
+```python
+prompt = "Tell me a very short joke about a computer."
+messages = [{"role": "user", "content": prompt}]
+
+# --- RÉPONSE ---
+temperatures = [0.1, 0.7, 1.5]
+
+for temp in temperatures:
+    # On utilise do_sample=True pour permettre l'usage de la température
+    output = pipe(messages, max_new_tokens=30, do_sample=True, temperature=temp)
+    print(f"\n--- Température: {temp} ---")
+    print(output[0]['generated_text'][-1]['content'])
+```
+
+**Observations attendues**: 
+*   0.1 -> Blague très classique, répétitive si relancée.
+*   0.7 -> Blague plus créative, moins prévisible.
+*   1.5 -> Peut devenir incohérent ou inventer des mots étranges.
+
+
+</details>
+
+---
+
+## EXERCICE 2 : Prompt Engineering : Persona et Format
+
+**Objectif** : Utiliser les composants d'un prompt vus en section 5.2 (Instruction, Persona, Format) pour obtenir une réponse structurée.
+
+```python
+# (On suppose pipe déjà initialisé comme ci-dessus)
+
+# --- CONFIGURATION DU PROMPT ---
+# Tâche : Créer un prompt qui demande à l'IA d'agir en tant qu'expert en nutrition
+# et de répondre sous forme de liste JSON.
+
+```
+
+<details>
+<summary><b>Voir la réponse</b></summary>
+
+```python
+# --- RÉPONSE (ANSWER CODE) ---
+system_msg = "You are a professional nutritionist. Always respond in JSON format."
+user_msg = "Give me 3 healthy breakfast ideas with their main ingredient."
+
+messages = [
+    {"role": "system", "content": system_msg},
+    {"role": "user", "content": user_msg}
+]
+
+# Inférence avec température basse pour respecter le format JSON
+output = pipe(messages, max_new_tokens=150, temperature=0.1, do_sample=True)
+
+print(output[0]['generated_text'][-1]['content'])
+
+```
+</details>
+
+---
+
+## EXERCICE 3 : Nucleus Sampling (Top-P) vs Greedy
+
+**Objectif** : Comparer la richesse lexicale entre un décodage déterministe et un décodage par noyau (Nucleus).
+
+```python
+# --- CONFIGURATION ---
+prompt = "In a world where artificial intelligence rules the oceans,"
+messages = [{"role": "user", "content": prompt}]
+```
+
+<details>
+<summary><b>Voir la réponse</b></summary>
+
+```python
+# --- RÉPONSE ---
+# 1. Génération Greedy (Déterministe)
+greedy_out = pipe(messages, max_new_tokens=40, do_sample=False) # do_sample=False force le mot le plus probable
+
+# 2. Génération Nucleus (Top-P)
+nucleus_out = pipe(messages, max_new_tokens=40, do_sample=True, top_p=0.9, temperature=0.8)
+
+print("--- MODE GREEDY (Plus probable) ---")
+print(greedy_out[0]['generated_text'][-1]['content'])
+
+print("\n--- MODE NUCLEUS (Échantillonné) ---")
+print(nucleus_out[0]['generated_text'][-1]['content'])
+```
+**Attentes** : Le mode Greedy sera très propre mais peut-être un peu banal. Le mode Nucleus proposera des adjectifs ou des tournures de phrases plus variées. 
+
+> [!NOTE]
+Si vous baissez trop le Top-P (ex: 0.1), cela revient quasiment à faire du Greedy !
+
+</details>
+
+---
+
+**Mots-clés de la semaine** : GPT, Decoder-only, Autorégressif, Instruction Tuning, RLHF, Température, Top-P (Nucleus), Hallucination, EOS Token, Base vs Chat model.
+
+**En prévision de la semaine suivante** : Nous étudierons la recherche sémantique et les bases de données vectorielles, qui seront ensuite mobilisées dans les systèmes **RAG**.

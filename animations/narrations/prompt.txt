@@ -1,0 +1,7 @@
+Un prompt devient plus facile à utiliser quand il précise la tâche, les données et le format attendu. Dans cet exemple, nous demandons d’extraire une date de remise.
+
+Nous fournissons ensuite le texte à analyser : « Le devoir est dû le douze novembre ». La donnée est clairement séparée de la consigne.
+
+Enfin, nous demandons un objet JSON contenant la date, ou une valeur nulle si elle est absente. La réponse illustrée reprend ici le douze novembre.
+
+L’application doit encore vérifier le format et la correspondance avec le texte source. Des délimiteurs améliorent la clarté, mais ils ne garantissent ni l’exactitude ni une protection complète contre les injections.

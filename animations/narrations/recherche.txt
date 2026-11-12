@@ -1,0 +1,7 @@
+Pour chercher dans un document long, on peut d’abord le découper en passages. Ici, les trois passages concernent l’inscription, les frais et les examens.
+
+Chaque passage reçoit un embedding. La question « combien coûte le cours ? » est encodée dans un espace compatible avec ces représentations.
+
+On compare ensuite les vecteurs. Dans cet exemple fictif, le passage sur les frais obtient le score le plus élevé. Une recherche top-k conserve les meilleurs candidats.
+
+Le découpage et le modèle d’embeddings influencent ces résultats. Un score élevé indique une proximité selon la mesure choisie. Il ne prouve pas que le passage contient une réponse correcte : il faut encore lire et vérifier son contenu.

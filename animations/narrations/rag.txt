@@ -1,0 +1,7 @@
+Le RAG associe une recherche documentaire à un modèle génératif. Avant les questions des utilisateurs, les documents sont découpés en passages, transformés en embeddings et placés dans un index.
+
+Quand une question arrive, le système l’encode pour rechercher des passages pertinents. Ces passages sont récupérés dans la base documentaire.
+
+Le modèle reçoit alors un prompt qui contient la question et les passages sélectionnés. Il peut s’appuyer sur ce contexte pour formuler une réponse. Les poids du modèle ne sont pas réentraînés pendant cette recherche.
+
+Les sources permettent de vérifier la réponse. Le RAG ne supprime toutefois pas toutes les erreurs : la récupération et l’interprétation des documents peuvent échouer.

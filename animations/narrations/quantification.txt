@@ -1,0 +1,7 @@
+La quantification remplace des valeurs par des niveaux représentables avec moins de précision. Nous utilisons ici une grille simple dont le pas vaut zéro virgule cinq.
+
+Pour obtenir le niveau quantifié, on divise le poids par le pas et on arrondit. Pour reconstruire une approximation, on multiplie ce niveau par le pas.
+
+Ainsi, moins un virgule trois devient moins un virgule cinq. Zéro virgule deux devient zéro, et un virgule sept devient un virgule cinq.
+
+Ce procédé peut économiser du stockage, mais il introduit une erreur. Les formats réels utilisent aussi des échelles, des groupes de valeurs et parfois des grilles non uniformes. Notre exemple illustre seulement le principe.

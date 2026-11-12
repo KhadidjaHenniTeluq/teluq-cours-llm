@@ -1,0 +1,7 @@
+CLIP apprend à comparer des images et des textes. Un encodeur traite les images et un autre traite les descriptions. Leurs vecteurs sont comparés dans un espace partagé.
+
+La matrice montre trois images et trois textes. Les associations correctes sont sur la diagonale : le chat avec le chat, le vélo avec le vélo et l’arbre avec l’arbre.
+
+La perte contrastive favorise ces associations par rapport aux autres paires du lot. La comparaison est effectuée dans les deux directions, de l’image vers le texte et du texte vers l’image.
+
+Les valeurs présentées sont fictives. CLIP mesure une compatibilité entre entrées ; il ne génère pas lui-même une légende.

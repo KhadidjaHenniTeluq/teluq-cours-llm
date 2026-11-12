@@ -1,0 +1,7 @@
+Un modèle génératif produit sa réponse un token à la fois. Le contexte de départ est ici « Le chat ». Le modèle calcule plusieurs suites possibles et leur attribue des probabilités.
+
+Nous utilisons un décodage glouton : il choisit le token le plus probable. Dans cet exemple fictif, le modèle sélectionne « dort ». Ce token est ajouté au contexte.
+
+Le calcul recommence sur le nouveau contexte. Le modèle choisit ensuite « sur », puis « le ». À chaque étape, la distribution est recalculée.
+
+La boucle continue jusqu’à une condition d’arrêt, comme une limite de longueur ou un token de fin. Avec l’échantillonnage, le token choisi peut être différent du plus probable.

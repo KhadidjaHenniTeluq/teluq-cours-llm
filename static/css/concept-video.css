@@ -1,0 +1,7 @@
+.concept-video { margin: 2rem 0; padding: 1rem; border: 1px solid var(--gray-200, #d9dfe7); border-radius: .5rem; }
+.concept-video figcaption { font-size: 1.1rem; }
+.concept-video video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #101e30; border-radius: .25rem; }
+.concept-video-note { font-size: .9rem; }
+.concept-video summary { cursor: pointer; font-weight: 600; }
+.concept-video details[open] summary { margin-bottom: 1rem; }
+.concept-video a:focus-visible, .concept-video summary:focus-visible, .concept-video video:focus-visible { outline: 3px solid #3675d0; outline-offset: 4px; }

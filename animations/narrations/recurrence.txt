@@ -1,0 +1,7 @@
+Un réseau récurrent lit une séquence étape par étape. Ici, il reçoit successivement les tokens « Le », « chat », « noir » et « dort ». À chaque étape, il met à jour un état caché.
+
+Cet état dépend du token courant et de l’état précédent. Il transmet donc une partie de l’information déjà traitée. Pour calculer le deuxième état, il faut avoir calculé le premier.
+
+Pendant l’entraînement, le gradient parcourt ces étapes dans le sens inverse. Sur de longues séquences, ce signal peut devenir très faible ou, au contraire, augmenter fortement.
+
+Les LSTM utilisent des mécanismes de contrôle pour atténuer certaines de ces difficultés. Ils conservent toutefois une dépendance séquentielle entre leurs étapes.

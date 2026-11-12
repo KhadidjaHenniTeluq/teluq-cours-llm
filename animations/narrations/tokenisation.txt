@@ -1,0 +1,7 @@
+Avant de traiter une phrase, le modèle reçoit une suite de tokens. Prenons « Les chats dorment ». Dans cet exemple, nous découpons la phrase en cinq unités, en comptant le point final.
+
+Le mot « dorment » est séparé en deux morceaux. Cela montre qu’un token n’est pas forcément un mot entier. Certains tokens comprennent aussi un espace.
+
+Chaque unité reçoit ensuite un identifiant. Les nombres affichés ici sont fictifs. Le découpage et les identifiants réels dépendent du tokeniseur choisi.
+
+Enfin, chaque identifiant sert à sélectionner une ligne de la matrice d’embeddings. Deux identifiants proches ne désignent pas nécessairement deux mots de sens proche.

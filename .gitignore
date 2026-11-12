@@ -1,0 +1,29 @@
+# Generated files by hugo
+/source-assets/
+/public/
+/resources/_gen/
+/assets/jsconfig.json
+hugo_stats.json
+
+# Executable may be added to repository
+hugo.exe
+hugo.darwin
+hugo.linux
+
+# Temporary lock file while building
+/.hugo_build.lock
+
+.DS_Store
+__pycache__/
+.venv/
+/animations/media/
+
+# Documents réservés à la préparation enseignante
+/enseignant-prive/
+/animations/audio/
+/animations/sorties-audio/
+/livrables/
+
+# Rendus intermédiaires des capsules longues
+/animations/capsules-longues/rendus/
+/animations/capsules-longues/media/

@@ -1,0 +1,7 @@
+BERT construit des représentations en utilisant le contexte situé à gauche et à droite. Dans cette phrase, un token a été remplacé par le marqueur « masque ».
+
+Le mot « miaule » fournit un indice pour retrouver « chat ». Les probabilités affichées sont fictives : elles servent seulement à illustrer la prédiction.
+
+Pendant le préentraînement, la perte compare les prédictions aux cibles sur les positions sélectionnées. Le modèle ajuste ses paramètres pour améliorer cette reconstruction.
+
+Il faut distinguer deux mécanismes. Remplacer un token d’entrée par un masque cache son contenu. Un masque causal interdit, lui, certaines connexions d’attention. Ce ne sont pas les mêmes opérations.

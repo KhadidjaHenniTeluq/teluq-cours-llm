@@ -1,0 +1,7 @@
+Un agent relie un modèle à des outils dans une boucle de contrôle. Prenons une question qui nécessite une recherche documentaire.
+
+Le système décide d’appeler un outil. L’application vérifie que cet outil et ses paramètres sont autorisés, puis exécute la recherche.
+
+Le résultat revient comme une donnée à examiner. Le système vérifie si les informations obtenues suffisent pour répondre et citer les sources. Sinon, une nouvelle recherche peut être proposée.
+
+Cette boucle doit avoir des limites. Elle s’arrête quand l’objectif est atteint, quand le nombre maximal d’étapes est dépassé, en cas d’erreur ou lorsqu’une intervention humaine est nécessaire. Le résultat d’un outil n’est pas automatiquement une consigne à suivre.

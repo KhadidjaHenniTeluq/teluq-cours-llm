@@ -1,0 +1,7 @@
+Un embedding représente une entrée par un vecteur de nombres. Pour visualiser l’idée, nous utilisons ici un dessin à deux dimensions. Les coordonnées sont inventées pour la démonstration.
+
+Les vecteurs de « chat » et de « félin » pointent dans des directions proches. Celui de « moteur » a une direction différente.
+
+La similarité cosinus compare ces directions. On calcule le produit scalaire, puis on le divise par le produit des normes. Pour des vecteurs non nuls, leur longueur ne change donc pas cette mesure.
+
+Dans les modèles réels, les embeddings ont beaucoup plus de dimensions. Cette carte aide à comprendre le calcul, mais elle ne représente pas une mesure tirée d’un modèle.

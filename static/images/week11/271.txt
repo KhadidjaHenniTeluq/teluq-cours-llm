@@ -1,0 +1,1 @@
+Figure 11-13. Blockwise quantization can accurately represent weights in lower precision through quantization blocks.

@@ -1,0 +1,562 @@
+[
+  {
+    "scene": "Recurrence",
+    "slug": "recurrence",
+    "title": "RNN et mémoire séquentielle",
+    "week": 1,
+    "page": "docs/ch1-fondements/week01/section-1-2.md",
+    "audio": "recurrence.wav",
+    "word_count": 116,
+    "silent_duration_seconds": 38.5,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Un réseau récurrent lit une séquence étape par étape. Ici, il reçoit successivement les tokens « Le », « chat », « noir » et « dort ». À chaque étape, il met à jour un état caché."
+      },
+      {
+        "id": 2,
+        "text": "Cet état dépend du token courant et de l’état précédent. Il transmet donc une partie de l’information déjà traitée. Pour calculer le deuxième état, il faut avoir calculé le premier."
+      },
+      {
+        "id": 3,
+        "text": "Pendant l’entraînement, le gradient parcourt ces étapes dans le sens inverse. Sur de longues séquences, ce signal peut devenir très faible ou, au contraire, augmenter fortement."
+      },
+      {
+        "id": 4,
+        "text": "Les LSTM utilisent des mécanismes de contrôle pour atténuer certaines de ces difficultés. Ils conservent toutefois une dépendance séquentielle entre leurs étapes."
+      }
+    ]
+  },
+  {
+    "scene": "Tokenisation",
+    "slug": "tokenisation",
+    "title": "Du texte aux tokens",
+    "week": 2,
+    "page": "docs/ch1-fondements/week02/section-2-1.md",
+    "audio": "tokenisation.wav",
+    "word_count": 105,
+    "silent_duration_seconds": 27.333,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Avant de traiter une phrase, le modèle reçoit une suite de tokens. Prenons « Les chats dorment ». Dans cet exemple, nous découpons la phrase en cinq unités, en comptant le point final."
+      },
+      {
+        "id": 2,
+        "text": "Le mot « dorment » est séparé en deux morceaux. Cela montre qu’un token n’est pas forcément un mot entier. Certains tokens comprennent aussi un espace."
+      },
+      {
+        "id": 3,
+        "text": "Chaque unité reçoit ensuite un identifiant. Les nombres affichés ici sont fictifs. Le découpage et les identifiants réels dépendent du tokeniseur choisi."
+      },
+      {
+        "id": 4,
+        "text": "Enfin, chaque identifiant sert à sélectionner une ligne de la matrice d’embeddings. Deux identifiants proches ne désignent pas nécessairement deux mots de sens proche."
+      }
+    ]
+  },
+  {
+    "scene": "Embeddings",
+    "slug": "embeddings",
+    "title": "Embeddings et similarité cosinus",
+    "week": 2,
+    "page": "docs/ch1-fondements/week02/section-2-4.md",
+    "audio": "embeddings.wav",
+    "word_count": 114,
+    "silent_duration_seconds": 27.0,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Un embedding représente une entrée par un vecteur de nombres. Pour visualiser l’idée, nous utilisons ici un dessin à deux dimensions. Les coordonnées sont inventées pour la démonstration."
+      },
+      {
+        "id": 2,
+        "text": "Les vecteurs de « chat » et de « félin » pointent dans des directions proches. Celui de « moteur » a une direction différente."
+      },
+      {
+        "id": 3,
+        "text": "La similarité cosinus compare ces directions. On calcule le produit scalaire, puis on le divise par le produit des normes. Pour des vecteurs non nuls, leur longueur ne change donc pas cette mesure."
+      },
+      {
+        "id": 4,
+        "text": "Dans les modèles réels, les embeddings ont beaucoup plus de dimensions. Cette carte aide à comprendre le calcul, mais elle ne représente pas une mesure tirée d’un modèle."
+      }
+    ]
+  },
+  {
+    "scene": "Attention",
+    "slug": "attention",
+    "title": "Comprendre les poids d’attention",
+    "week": 3,
+    "page": "docs/ch1-fondements/week03/section-3-1.md",
+    "audio": "attention.wav",
+    "word_count": 110,
+    "silent_duration_seconds": 29.5,
+    "segments": [
+      {
+        "id": 1,
+        "text": "L’attention permet à une position de combiner des informations provenant d’autres positions. Le modèle construit pour cela des requêtes, des clés et des valeurs, appelées Q, K et V."
+      },
+      {
+        "id": 2,
+        "text": "Une requête est comparée aux clés. Les produits scalaires sont divisés par la racine de la dimension des clés. Dans notre exemple, les scores obtenus sont zéro, un et deux."
+      },
+      {
+        "id": 3,
+        "text": "Le softmax transforme ces scores en poids : environ neuf pour cent, vingt-quatre et demi pour cent, et soixante-six et demi pour cent. Leur somme vaut un."
+      },
+      {
+        "id": 4,
+        "text": "La sortie est une somme des valeurs V pondérées par ces poids. Dans un décodeur causal, les positions futures sont masquées avant le softmax."
+      }
+    ]
+  },
+  {
+    "scene": "MasqueCausal",
+    "slug": "masque-causal",
+    "title": "Visualiser le masque causal",
+    "week": 3,
+    "page": "docs/ch1-fondements/week03/section-3-1.md",
+    "audio": "masque-causal.wav",
+    "word_count": 100,
+    "silent_duration_seconds": 27.833,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Voici une matrice d’attention. Chaque ligne correspond à une requête et chaque colonne à une clé. Les numéros indiquent les positions dans la séquence."
+      },
+      {
+        "id": 2,
+        "text": "Les cases vertes montrent les connexions autorisées. À la deuxième position, le modèle peut consulter les positions un et deux, mais pas les suivantes."
+      },
+      {
+        "id": 3,
+        "text": "Pour bloquer une position future, on ajoute moins l’infini à son score avant le softmax. Son poids devient alors nul."
+      },
+      {
+        "id": 4,
+        "text": "Ce masque permet de traiter plusieurs positions en parallèle pendant l’entraînement sans leur donner accès aux tokens futurs. Le modèle apprend ainsi à prédire la suite à partir du seul contexte autorisé."
+      }
+    ]
+  },
+  {
+    "scene": "BERT",
+    "slug": "bert",
+    "title": "BERT et le token masqué",
+    "week": 4,
+    "page": "docs/ch1-fondements/week04/section-4-1.md",
+    "audio": "bert.wav",
+    "word_count": 107,
+    "silent_duration_seconds": 28.125,
+    "segments": [
+      {
+        "id": 1,
+        "text": "BERT construit des représentations en utilisant le contexte situé à gauche et à droite. Dans cette phrase, un token a été remplacé par le marqueur « masque »."
+      },
+      {
+        "id": 2,
+        "text": "Le mot « miaule » fournit un indice pour retrouver « chat ». Les probabilités affichées sont fictives : elles servent seulement à illustrer la prédiction."
+      },
+      {
+        "id": 3,
+        "text": "Pendant le préentraînement, la perte compare les prédictions aux cibles sur les positions sélectionnées. Le modèle ajuste ses paramètres pour améliorer cette reconstruction."
+      },
+      {
+        "id": 4,
+        "text": "Il faut distinguer deux mécanismes. Remplacer un token d’entrée par un masque cache son contenu. Un masque causal interdit, lui, certaines connexions d’attention. Ce ne sont pas les mêmes opérations."
+      }
+    ]
+  },
+  {
+    "scene": "Generation",
+    "slug": "generation",
+    "title": "La génération autorégressive",
+    "week": 5,
+    "page": "docs/ch1-fondements/week05/section-5-1.md",
+    "audio": "generation.wav",
+    "word_count": 114,
+    "silent_duration_seconds": 34.667,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Un modèle génératif produit sa réponse un token à la fois. Le contexte de départ est ici « Le chat ». Le modèle calcule plusieurs suites possibles et leur attribue des probabilités."
+      },
+      {
+        "id": 2,
+        "text": "Nous utilisons un décodage glouton : il choisit le token le plus probable. Dans cet exemple fictif, le modèle sélectionne « dort ». Ce token est ajouté au contexte."
+      },
+      {
+        "id": 3,
+        "text": "Le calcul recommence sur le nouveau contexte. Le modèle choisit ensuite « sur », puis « le ». À chaque étape, la distribution est recalculée."
+      },
+      {
+        "id": 4,
+        "text": "La boucle continue jusqu’à une condition d’arrêt, comme une limite de longueur ou un token de fin. Avec l’échantillonnage, le token choisi peut être différent du plus probable."
+      }
+    ]
+  },
+  {
+    "scene": "Temperature",
+    "slug": "temperature",
+    "title": "Température et probabilités",
+    "week": 5,
+    "page": "docs/ch1-fondements/week05/section-5-3.md",
+    "audio": "temperature.wav",
+    "word_count": 107,
+    "silent_duration_seconds": 28.0,
+    "segments": [
+      {
+        "id": 1,
+        "text": "La température modifie une distribution avant l’échantillonnage. Nous gardons ici les mêmes scores : deux, un et zéro. On les divise par la température, puis on applique le softmax."
+      },
+      {
+        "id": 2,
+        "text": "À zéro virgule cinq, la probabilité se concentre sur le premier candidat. Il reçoit environ quatre-vingt-sept pour cent de la masse totale."
+      },
+      {
+        "id": 3,
+        "text": "À un, nous retrouvons la distribution initiale. À deux, les probabilités deviennent plus proches les unes des autres : les candidats moins probables ont davantage de chances d’être tirés."
+      },
+      {
+        "id": 4,
+        "text": "Pour une température positive, le classement reste le même. Le décodage glouton choisit donc toujours le même maximum. Modifier la température ne garantit pas l’exactitude des réponses."
+      }
+    ]
+  },
+  {
+    "scene": "Recherche",
+    "slug": "recherche",
+    "title": "Du document aux passages pertinents",
+    "week": 6,
+    "page": "docs/ch2-science/week06/section-6-3.md",
+    "audio": "recherche.wav",
+    "word_count": 113,
+    "silent_duration_seconds": 28.625,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Pour chercher dans un document long, on peut d’abord le découper en passages. Ici, les trois passages concernent l’inscription, les frais et les examens."
+      },
+      {
+        "id": 2,
+        "text": "Chaque passage reçoit un embedding. La question « combien coûte le cours ? » est encodée dans un espace compatible avec ces représentations."
+      },
+      {
+        "id": 3,
+        "text": "On compare ensuite les vecteurs. Dans cet exemple fictif, le passage sur les frais obtient le score le plus élevé. Une recherche top-k conserve les meilleurs candidats."
+      },
+      {
+        "id": 4,
+        "text": "Le découpage et le modèle d’embeddings influencent ces résultats. Un score élevé indique une proximité selon la mesure choisie. Il ne prouve pas que le passage contient une réponse correcte : il faut encore lire et vérifier son contenu."
+      }
+    ]
+  },
+  {
+    "scene": "BERTopic",
+    "slug": "bertopic",
+    "title": "BERTopic : des groupes aux sujets",
+    "week": 7,
+    "page": "docs/ch2-science/week07/section-7-2.md",
+    "audio": "bertopic.wav",
+    "word_count": 106,
+    "silent_duration_seconds": 29.25,
+    "segments": [
+      {
+        "id": 1,
+        "text": "BERTopic organise la découverte de sujets en plusieurs étapes. Les embeddings représentent d’abord les documents. UMAP réduit ensuite le nombre de dimensions utilisé pour le regroupement."
+      },
+      {
+        "id": 2,
+        "text": "HDBSCAN cherche des groupes de points denses. Dans notre dessin, deux groupes apparaissent et un point reste à l’extérieur. Tous les documents ne sont donc pas forcés dans un groupe."
+      },
+      {
+        "id": 3,
+        "text": "La méthode appelée c-TF-IDF met ensuite en évidence les mots caractéristiques de chaque groupe. Ici, les descriptions évoquent les cours et les frais."
+      },
+      {
+        "id": 4,
+        "text": "Ces mots facilitent l’interprétation, mais ne suffisent pas à valider un sujet. Il faut consulter les documents représentatifs. Les différents modules du pipeline peuvent aussi être remplacés."
+      }
+    ]
+  },
+  {
+    "scene": "Prompt",
+    "slug": "prompt",
+    "title": "Construire un prompt vérifiable",
+    "week": 8,
+    "page": "docs/ch2-science/week08/section-8-1.md",
+    "audio": "prompt.wav",
+    "word_count": 109,
+    "silent_duration_seconds": 30.833,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Un prompt devient plus facile à utiliser quand il précise la tâche, les données et le format attendu. Dans cet exemple, nous demandons d’extraire une date de remise."
+      },
+      {
+        "id": 2,
+        "text": "Nous fournissons ensuite le texte à analyser : « Le devoir est dû le douze novembre ». La donnée est clairement séparée de la consigne."
+      },
+      {
+        "id": 3,
+        "text": "Enfin, nous demandons un objet JSON contenant la date, ou une valeur nulle si elle est absente. La réponse illustrée reprend ici le douze novembre."
+      },
+      {
+        "id": 4,
+        "text": "L’application doit encore vérifier le format et la correspondance avec le texte source. Des délimiteurs améliorent la clarté, mais ils ne garantissent ni l’exactitude ni une protection complète contre les injections."
+      }
+    ]
+  },
+  {
+    "scene": "RAG",
+    "slug": "rag",
+    "title": "Les étapes d’un système RAG",
+    "week": 9,
+    "page": "docs/ch2-science/week09/section-9-1.md",
+    "audio": "rag.wav",
+    "word_count": 109,
+    "silent_duration_seconds": 31.833,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Le RAG associe une recherche documentaire à un modèle génératif. Avant les questions des utilisateurs, les documents sont découpés en passages, transformés en embeddings et placés dans un index."
+      },
+      {
+        "id": 2,
+        "text": "Quand une question arrive, le système l’encode pour rechercher des passages pertinents. Ces passages sont récupérés dans la base documentaire."
+      },
+      {
+        "id": 3,
+        "text": "Le modèle reçoit alors un prompt qui contient la question et les passages sélectionnés. Il peut s’appuyer sur ce contexte pour formuler une réponse. Les poids du modèle ne sont pas réentraînés pendant cette recherche."
+      },
+      {
+        "id": 4,
+        "text": "Les sources permettent de vérifier la réponse. Le RAG ne supprime toutefois pas toutes les erreurs : la récupération et l’interprétation des documents peuvent échouer."
+      }
+    ]
+  },
+  {
+    "scene": "CLIP",
+    "slug": "clip",
+    "title": "CLIP et l’apprentissage contrastif",
+    "week": 10,
+    "page": "docs/ch2-science/week10/section-10-1.md",
+    "audio": "clip.wav",
+    "word_count": 108,
+    "silent_duration_seconds": 30.833,
+    "segments": [
+      {
+        "id": 1,
+        "text": "CLIP apprend à comparer des images et des textes. Un encodeur traite les images et un autre traite les descriptions. Leurs vecteurs sont comparés dans un espace partagé."
+      },
+      {
+        "id": 2,
+        "text": "La matrice montre trois images et trois textes. Les associations correctes sont sur la diagonale : le chat avec le chat, le vélo avec le vélo et l’arbre avec l’arbre."
+      },
+      {
+        "id": 3,
+        "text": "La perte contrastive favorise ces associations par rapport aux autres paires du lot. La comparaison est effectuée dans les deux directions, de l’image vers le texte et du texte vers l’image."
+      },
+      {
+        "id": 4,
+        "text": "Les valeurs présentées sont fictives. CLIP mesure une compatibilité entre entrées ; il ne génère pas lui-même une légende."
+      }
+    ]
+  },
+  {
+    "scene": "Vision",
+    "slug": "vision",
+    "title": "Du patch au token visuel",
+    "week": 10,
+    "page": "docs/ch2-science/week10/section-10-2.md",
+    "audio": "vision.wav",
+    "word_count": 106,
+    "silent_duration_seconds": 29.0,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Un Vision Transformer traite une image comme une séquence de représentations. On commence par la découper en patches. Notre dessin utilise une petite grille de quatre lignes et quatre colonnes."
+      },
+      {
+        "id": 2,
+        "text": "Chaque patch est aplati, puis projeté en un vecteur. Les vecteurs obtenus ont la même dimension et forment une séquence."
+      },
+      {
+        "id": 3,
+        "text": "On leur ajoute des informations de position pour conserver la localisation des patches dans l’image."
+      },
+      {
+        "id": 4,
+        "text": "Pour une image de deux cent vingt-quatre pixels de côté et des patches de seize pixels, on obtient quatorze fois quatorze, soit cent quatre-vingt-seize patches. Dans un ViT qui ajoute un token de classification, la séquence compte donc cent quatre-vingt-dix-sept tokens."
+      }
+    ]
+  },
+  {
+    "scene": "LoRA",
+    "slug": "lora",
+    "title": "LoRA et les matrices de faible rang",
+    "week": 11,
+    "page": "docs/ch3-ingenierie/week11/section-11-2.md",
+    "audio": "lora.wav",
+    "word_count": 116,
+    "silent_duration_seconds": 30.833,
+    "segments": [
+      {
+        "id": 1,
+        "text": "LoRA adapte une matrice en conservant ses poids de base et en apprenant une petite correction. Ici, la matrice de base a quatre mille quatre-vingt-seize lignes et autant de colonnes."
+      },
+      {
+        "id": 2,
+        "text": "La correction utilise deux matrices, A et B, avec un rang de huit. Ensemble, elles contiennent soixante-cinq mille cinq cent trente-six paramètres entraînables."
+      },
+      {
+        "id": 3,
+        "text": "La sortie additionne le résultat de la matrice de base et celui de cette branche de faible rang. Le facteur alpha divisé par le rang règle l’échelle de la correction."
+      },
+      {
+        "id": 4,
+        "text": "Pour cet exemple, il y a deux cent cinquante-six fois moins de paramètres entraînables. Mais les poids de base restent en mémoire : ce rapport ne mesure pas l’économie totale de mémoire GPU."
+      }
+    ]
+  },
+  {
+    "scene": "Quantification",
+    "slug": "quantification",
+    "title": "Quantification et erreur d’arrondi",
+    "week": 11,
+    "page": "docs/ch3-ingenierie/week11/section-11-3.md",
+    "audio": "quantification.wav",
+    "word_count": 109,
+    "silent_duration_seconds": 30.0,
+    "segments": [
+      {
+        "id": 1,
+        "text": "La quantification remplace des valeurs par des niveaux représentables avec moins de précision. Nous utilisons ici une grille simple dont le pas vaut zéro virgule cinq."
+      },
+      {
+        "id": 2,
+        "text": "Pour obtenir le niveau quantifié, on divise le poids par le pas et on arrondit. Pour reconstruire une approximation, on multiplie ce niveau par le pas."
+      },
+      {
+        "id": 3,
+        "text": "Ainsi, moins un virgule trois devient moins un virgule cinq. Zéro virgule deux devient zéro, et un virgule sept devient un virgule cinq."
+      },
+      {
+        "id": 4,
+        "text": "Ce procédé peut économiser du stockage, mais il introduit une erreur. Les formats réels utilisent aussi des échelles, des groupes de valeurs et parfois des grilles non uniformes. Notre exemple illustre seulement le principe."
+      }
+    ]
+  },
+  {
+    "scene": "DPO",
+    "slug": "dpo",
+    "title": "Apprendre avec des paires de préférences",
+    "week": 12,
+    "page": "docs/ch3-ingenierie/week12/section-12-3.md",
+    "audio": "dpo.wav",
+    "word_count": 114,
+    "silent_duration_seconds": 29.0,
+    "segments": [
+      {
+        "id": 1,
+        "text": "DPO adapte un modèle à partir de préférences. Pour une même question, le jeu de données fournit une réponse préférée et une réponse rejetée."
+      },
+      {
+        "id": 2,
+        "text": "La méthode compare leurs log-probabilités dans le modèle à entraîner et dans un modèle de référence gelé. La marge affichée mesure cette différence relative."
+      },
+      {
+        "id": 3,
+        "text": "La perte encourage une marge plus grande pour la réponse préférée. Le paramètre bêta intervient dans cette fonction de perte. L’objectif porte sur une comparaison relative, pas sur une garantie que chaque probabilité évolue isolément dans le sens attendu."
+      },
+      {
+        "id": 4,
+        "text": "La qualité des préférences reste essentielle. Satisfaire les comparaisons d’un jeu de données ne garantit pas qu’une réponse sera vraie, utile ou sûre dans toutes les situations."
+      }
+    ]
+  },
+  {
+    "scene": "CacheKV",
+    "slug": "cache-kv",
+    "title": "Le cache KV pendant le décodage",
+    "week": 13,
+    "page": "docs/ch3-ingenierie/week13/section-13-1.md",
+    "audio": "cache-kv.wav",
+    "word_count": 110,
+    "silent_duration_seconds": 31.833,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Pendant la génération causale, le cache KV conserve les clés et les valeurs déjà calculées. Le préremplissage commence par traiter les tokens du prompt, à chaque couche du modèle."
+      },
+      {
+        "id": 2,
+        "text": "Pour le token suivant, on calcule ses nouvelles projections. Ses clés et ses valeurs rejoignent le cache."
+      },
+      {
+        "id": 3,
+        "text": "La nouvelle requête consulte alors les clés et les valeurs des positions passées et de la position courante. Il faut donc toujours calculer l’attention au passé."
+      },
+      {
+        "id": 4,
+        "text": "Le gain vient de la réutilisation des projections précédentes. En échange, le cache occupe de la mémoire, et cette mémoire augmente avec la longueur du contexte. Il faut donc choisir un compromis entre vitesse et capacité de traitement."
+      }
+    ]
+  },
+  {
+    "scene": "Agent",
+    "slug": "agent",
+    "title": "La boucle d’un agent avec outils",
+    "week": 14,
+    "page": "docs/ch3-ingenierie/week14/section-14-3.md",
+    "audio": "agent.wav",
+    "word_count": 109,
+    "silent_duration_seconds": 32.833,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Un agent relie un modèle à des outils dans une boucle de contrôle. Prenons une question qui nécessite une recherche documentaire."
+      },
+      {
+        "id": 2,
+        "text": "Le système décide d’appeler un outil. L’application vérifie que cet outil et ses paramètres sont autorisés, puis exécute la recherche."
+      },
+      {
+        "id": 3,
+        "text": "Le résultat revient comme une donnée à examiner. Le système vérifie si les informations obtenues suffisent pour répondre et citer les sources. Sinon, une nouvelle recherche peut être proposée."
+      },
+      {
+        "id": 4,
+        "text": "Cette boucle doit avoir des limites. Elle s’arrête quand l’objectif est atteint, quand le nombre maximal d’étapes est dépassé, en cas d’erreur ou lorsqu’une intervention humaine est nécessaire. Le résultat d’un outil n’est pas automatiquement une consigne à suivre."
+      }
+    ]
+  },
+  {
+    "scene": "Entrainement",
+    "slug": "entrainement",
+    "title": "minGPT : de la prédiction à la mise à jour",
+    "week": 15,
+    "page": "docs/ch3-ingenierie/week15/mingpt/section-2.md",
+    "audio": "entrainement.wav",
+    "word_count": 112,
+    "silent_duration_seconds": 38.083,
+    "segments": [
+      {
+        "id": 1,
+        "text": "Pour entraîner minGPT, les cibles sont décalées d’un token par rapport aux entrées. Avec « Le », « chat » et « dort » en entrée, les cibles sont « chat », « dort » et le point."
+      },
+      {
+        "id": 2,
+        "text": "Le passage avant calcule des scores sur le vocabulaire. La perte d’entropie croisée compare ces scores aux cibles attendues."
+      },
+      {
+        "id": 3,
+        "text": "La rétropropagation calcule ensuite les gradients. L’optimiseur utilise ces informations pour mettre à jour les paramètres."
+      },
+      {
+        "id": 4,
+        "text": "Entre deux pas, on réinitialise les gradients, sauf si l’on veut volontairement les accumuler. Enfin, on mesure les résultats sur des données de validation séparées. Une baisse de la perte d’entraînement ne suffit pas à démontrer une meilleure généralisation."
+      }
+    ]
+  }
+]
